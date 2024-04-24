@@ -9,3 +9,6 @@ m7.  NLP 응용\
 m8.  자연어처리 챗봇 개발 프로젝트\
 m9.  VISION 응용\
 m10. 최종 프로젝트
+
+박기범 강사님 구글 공용드라이브\
+https://drive.google.com/drive/folders/1tB7rzLSqxEkcV7VJJ8rtUnUhoJsAWjoS?usp=sharing
