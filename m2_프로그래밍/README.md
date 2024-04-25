@@ -1,8 +1,10 @@
 부족한 것
 
 1. 리스트 컴프리헨션쪽 공부 필요
-
-
+numbers = []
+for n in range(1, 10+1):
+    numbers.append(n)
+=> [x for x in range(10)]
 
 
 메서드 모음
