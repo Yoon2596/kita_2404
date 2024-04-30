@@ -12,3 +12,6 @@ m10. 최종 프로젝트
 
 박기범 강사님 구글 공용드라이브\
 https://drive.google.com/drive/folders/1tB7rzLSqxEkcV7VJJ8rtUnUhoJsAWjoS?usp=sharing
+
+KITA 시간표
+https://www.hrd.go.kr/hrdp/co/pcobo/PCOBO0100P.do?tracseId=AIG20210000328661&tracseTme=9&crseTracseSe=C0061&trainstCstmrId=500020038752#undefined
