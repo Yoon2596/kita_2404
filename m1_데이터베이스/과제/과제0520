@@ -1,0 +1,58 @@
+--Q. 10개의 속성으로 구성되는 테이블 2개를 작성하세요. 단 foreign key를 적용하여 한쪽 테이블 데이터를 삭제 시
+-- 다른 테이블의 관련되는 데이터도 모두 삭제되도록 하세요 (모든 제약조건을 사용)
+-- 단, 각 테이블에 5개의 데이터를 입력하고 두번째 테이블에 첫번쨰 데이터를 참조하고 있는 속성을 선택하여 데이터 삭제
+CREATE TABLE MOVIE (
+    movieid NUMBER PRIMARY KEY,
+    title VARCHAR2(50) NOT NULL,
+    publish_date DATE,
+    price NUMBER,
+    run_time NUMBER(2)
+);
+
+CREATE TABLE ACTORS (
+    act_id NUMBER,
+    name VARCHAR2(50),
+    age number(3),
+    filmograph VARCHAR2(50),
+    main_act VARCHAR2(50),
+    PRIMARY KEY(act_id),
+    FOREIGN KEY(act_id) REFERENCES MOVIE(movieid) ON DELETE CASCADE
+);
+DROP TABLE ACTORS;
+INSERT INTO MOVIE VALUES(1, '범죄도시4', TO_DATE('2024-02-23', 'YYYY-MM-DD'), 15000, 109);
+INSERT INTO ACTORS VALUES(1, '마동석', 53, '범죄도시', 'action');
+
+SELECT * FROM MOVIE;
+SELECT * FROM ACTORS;
+
+DELETE FROM MOVIE;
+DELETE FROM ACTORS;
+
+SELECT * FROM customer;
+SELECT * FROM orders;
+SELECT * FROM book;
+--Task2_0520. Customer 테이블에서 박세리 고객의 주소를 김연아 고객의 주소로 변경하시오.
+UPDATE customer SET address = REPLACE(address, '대한민국 대전','대한민국 서울');
+
+--Task3_0520.도서 제목에 ‘야구’가 포함된 도서를 ‘농구’로 변경한 후 도서 목록, 가격을 보이시오.
+SELECT price, REPLACE(bookname, '야구', '농구') FROM book;
+
+--Task4_0520. 마당서점의 고객 중에서 같은 성(姓)을 가진 사람이 몇 명이나 되는지 성별 인원수를 구하시오.
+SELECT COUNT (*) "같은성씨", name FROM customer WHERE name = (SELECT name WHERE name LIKE '박%');
+
+--Task5_0520. 마당서점은 주문일로부터 10일 후 매출을 확정한다. 각 주문의 확정일자를 구하시오.
+SELECT *,DATE as '확정일자' FROM orders WHERE '확정일자' = orderdate + 10;
+
+--Task6_0520.마당서점이 2020년 7월 7일에 주문받은 도서의 주문번호, 주문일, 고객번호, 도서번호를 모두 보이시오. 
+--단 주문일은 ‘yyyy-mm-dd 요일’ 형태로 표시한다.
+SELECT orderid, custid, orderdate, bookid FROM orders WHERE orderdate = '20-07-07';
+
+--Task7_0520. 평균 주문금액 이하의 주문에 대해서 주문번호와 금액을 보이시오.
+SELECT AVG(saleprice) AS "평균" FROM orders;
+
+SELECT orderid, saleprice FROM orders o1
+WHERE o1.saleprice <= (SELECT AVG(o2.saleprice) FROM orders o2);
+
+--Task8_0520. 대한민국’에 거주하는 고객에게 판매한 도서의 총 판매액을 구하시오.
+SELECT SUM(saleprice) "총판매량" FROM orders WHERE custid IN (SELECT custid FROM customer WHERE address LIKE '대한민국%');
+
