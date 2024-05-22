@@ -1,6 +1,6 @@
---[½Ç½À]
--- ÇöÀç hr¿¡ ÀÖ´Â 7°³ Å×ÀÌºíµéÀ» ºÐ¼®ÇØ¼­ ÀÎ»ç°ü¸®¿¡ ÀÇ¹ÌÀÖ´Â ÀÎ»çÀÌÆ® 5°³ÀÌ»óÀ¸ ±â¼úÇÏ¼¼¿ä
--- ÀÎ»ç°ü¸® °³¼±À» À§ÇÑ KPI 2°³¸¦ ¼³Á¤ÇÏ°í ÀÌ°ÍµéÀ» Å×ÀÌºíµéÀÇ µ¥¾îÅÍ¿¡ ¹Ý¿µÇÑ ÈÄ ´Ù½Ã ºÐ¼®ÇØ¼­ ¹Ý¿µ ¿©ºÎ¸¦ °ËÁõÇÏ¼¼¿ä (¿É¼Ç)
+--[ì‹¤ìŠµ]
+-- í˜„ìž¬ hrì— ìžˆëŠ” 7ê°œ í…Œì´ë¸”ë“¤ì„ ë¶„ì„í•´ì„œ ì¸ì‚¬ê´€ë¦¬ì— ì˜ë¯¸ìžˆëŠ” ì¸ì‚¬ì´íŠ¸ 5ê°œì´ìƒìœ¼ ê¸°ìˆ í•˜ì„¸ìš”
+-- ì¸ì‚¬ê´€ë¦¬ ê°œì„ ì„ ìœ„í•œ KPI 2ê°œë¥¼ ì„¤ì •í•˜ê³  ì´ê²ƒë“¤ì„ í…Œì´ë¸”ë“¤ì˜ ë°ì–´í„°ì— ë°˜ì˜í•œ í›„ ë‹¤ì‹œ ë¶„ì„í•´ì„œ ë°˜ì˜ ì—¬ë¶€ë¥¼ ê²€ì¦í•˜ì„¸ìš” (ì˜µì…˜)
 
 SELECT * FROM countries;
 SELECT * FROM departments;
@@ -15,7 +15,7 @@ SELECT * FROM regions;
  
 
 
---CASE1 °¡Àå ÀÎ¿øÀÌ ¸¹Àº °÷ÀÌ Áö±Ý ÀÌ È¸»ç¿¡¼­ ÁýÁß ÅõÀÚÇÏ´Â °÷ÀÌ±â¿¡ ÀÌ°÷¿¡ ´õ ÅõÀÚ ÇÒÁö ¾Æ´Ï¸é ÀÎ¿ø ¾ø´Â °÷À» ´õ »ÌÀ»Áö¿¡ ´ëÇÑ Å×ÀÌºí
+--CASE1 ê°€ìž¥ ì¸ì›ì´ ë§Žì€ ê³³ì´ ì§€ê¸ˆ ì´ íšŒì‚¬ì—ì„œ ì§‘ì¤‘ íˆ¬ìží•˜ëŠ” ê³³ì´ê¸°ì— ì´ê³³ì— ë” íˆ¬ìž í• ì§€ ì•„ë‹ˆë©´ ì¸ì› ì—†ëŠ” ê³³ì„ ë” ë½‘ì„ì§€ì— ëŒ€í•œ í…Œì´ë¸”
 SELECT department_name, department_id, employee_count
 FROM (
     SELECT d.department_name, d.department_id, COUNT(e.department_id) AS employee_count FROM departments d
@@ -28,19 +28,36 @@ FROM (
 )
 ORDER BY employee_count DESC;
 
---CASE2
+--CASE2 ì–´ëŠ ë‚˜ë¼ì— ì§ì›ì´ ë§Žì€ì§€ ë³´ê³  ê·¸ ë‚˜ë¼ì— ë” íˆ¬ìž
 SELECT department_name, manager_id FROM departments;
 
---CASE3 ¾î´À ³ª¶ó¿¡ Á÷¿øÀÌ ¸¹ÀºÁö º¸°í ±× ³ª¶ó¿¡ ´õ ÅõÀÚ
+--CASE3 
+ê¸‰ì—¬ê°€ 10000ì´ìƒì´ê³  ì‚¬ì›ë²ˆí˜¸, ì´ë¦„, ê¸‰ì—¬, ë¶€ì„œë²ˆí˜¸, ë¶€ì„œëª…ì„ í¬í•¨í•´ì„œ êµ¬í•˜ê¸° (ë¶€ì„œë²ˆí˜¸ë¥¼ ì˜¤ë¦„ì°¨ìˆœìœ¼ë¡œ í•˜ê³  ê·¸ ë¶€ì„œì— ë§žê²Œ ê¸‰ì—¬ ë‚´ë¦¼ì°¨ìˆœìœ¼ë¡œ ì¶œë ¥)
+select
+	E.employee_id as ì‚¬ì›ë²ˆí˜¸,
+    E.first_name || ' ' || E.last_name as ì´ë¦„,
+    E.salary as ê¸‰ì—¬,
+    D.department_id as ë¶€ì„œë²ˆí˜¸,
+    D.department_name as ë¶€ì„œëª…
+    	from employees E
+        join departments
+    		on E.department _id = D.department_id
+        where
+        	E.salary >= 10000
+        order by 
+        	E.department_id, E.salary desc;
 
---CASE4 ±Ù¼Ó ³â¼ö¸¦ ±¸ÇØ Àå±â ±Ù¼ÓÀÚ Æ÷»ó Áö±Þ
-SELECT first_name || ' ' || last_name ÀÌ¸§, trunc(MONTHS_BETWEEN(sysdate, hire_date) / 12) AS ±Ù¼Ó¿¬¼ö 
+
+--CASE4 ê·¼ì† ë…„ìˆ˜ë¥¼ êµ¬í•´ ìž¥ê¸° ê·¼ì†ìž í¬ìƒ ì§€ê¸‰
+SELECT first_name || ' ' || last_name ì´ë¦„, trunc(MONTHS_BETWEEN(sysdate, hire_date) / 12) AS ê·¼ì†ì—°ìˆ˜ 
 FROM employees WHERE trunc(MONTHS_BETWEEN(sysdate, hire_date) / 12) >= 20;
 
---CASE5 job history¿Í employees°¡ ¾È¸ÂÀ½
+--CASE5 ê°™ì€ ì§ì—…ì¼ë•Œì˜ salary ë¹„êµêµ
+
+
 select e.employee_id, e.first_name, e.last_name, 
-count(h.start_date)  as "jobÀÌ·ÂÀÇ È½¼ö",
-decode(count(h.start_date),0,'zero',1,'one',2,'two','many') as "µî±Þ" 
+count(h.start_date)  as "jobì´ë ¥ì˜ íšŸìˆ˜",
+decode(count(h.start_date),0,'zero',1,'one',2,'two','many') as "ë“±ê¸‰" 
 from employees e left outer join job_history h 
 on e.employee_id = h.employee_id
 group by e.employee_id, e.first_name, e.last_name
@@ -51,5 +68,9 @@ where (hire_date-sysdate)/365 >= 15
 group by department_id
 having count(*) >= 3;
 
-SELECT e.employee_id, e.hire_date ÀÓ1, h.start_date È÷1, h.end_date, e.department_id ÀÓ2, h.department_id È÷2, e.job_id ÀÓ3, h.job_id È÷3 FROM employees e
+
+
+
+
+SELECT e.employee_id, e.hire_date ìž„1, h.start_date ížˆ1, h.end_date, e.department_id ìž„2, h.department_id ížˆ2, e.job_id ìž„3, h.job_id ížˆ3 FROM employees e
 INNER JOIN job_history h ON e.employee_id = h.employee_id;
