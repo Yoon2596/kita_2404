@@ -15,3 +15,5 @@ https://drive.google.com/drive/folders/1tB7rzLSqxEkcV7VJJ8rtUnUhoJsAWjoS?usp=sha
 
 KITA 시간표
 https://www.hrd.go.kr/hrdp/co/pcobo/PCOBO0100P.do?tracseId=AIG20210000328661&tracseTme=9&crseTracseSe=C0061&trainstCstmrId=500020038752#undefined
+
+케글(Kaggle) / 데이콘(Dacon) (여기서 주제도 주지만 데이터도 제공해줌)
