@@ -30,7 +30,20 @@ ORDER BY employee_count DESC;
 
 --CASE2 어느 나라에 직원이 많은지 보고 그 나라에 더 투자
 SELECT department_name, manager_id FROM departments;
-
+SELECT 
+    l.COUNTRY_ID,
+    d.DEPARTMENT_ID,
+    COUNT(e.EMPLOYEE_ID) AS EMPLOYEE_COUNT
+FROM 
+    EMPLOYEES e
+JOIN 
+    DEPARTMENTS d ON e.DEPARTMENT_ID = d.DEPARTMENT_ID
+JOIN 
+    LOCATIONS l ON d.LOCATION_ID = l.LOCATION_ID
+GROUP BY 
+    l.COUNTRY_ID, d.DEPARTMENT_ID
+ORDER BY 
+    l.COUNTRY_ID, d.DEPARTMENT_ID;
 --CASE3 
 급여가 10000이상이고 사원번호, 이름, 급여, 부서번호, 부서명을 포함해서 구하기 (부서번호를 오름차순으로 하고 그 부서에 맞게 급여 내림차순으로 출력)
 select
@@ -53,7 +66,19 @@ SELECT first_name || ' ' || last_name 이름, trunc(MONTHS_BETWEEN(sysdate, hire
 FROM employees WHERE trunc(MONTHS_BETWEEN(sysdate, hire_date) / 12) >= 20;
 
 --CASE5 같은 직업일때의 salary 비교교
-
+SELECT 
+    e.EMPLOYEE_ID,
+    e.FIRST_NAME,
+    e.LAST_NAME,
+    e.JOB_ID,
+    j.JOB_TITLE,
+    e.SALARY
+FROM 
+    EMPLOYEES e
+INNER JOIN 
+    JOBS j ON e.JOB_ID = j.JOB_ID
+ORDER BY 
+    e.JOB_ID, e.SALARY DESC;
 
 select e.employee_id, e.first_name, e.last_name, 
 count(h.start_date)  as "job이력의 횟수",
