@@ -20,3 +20,5 @@ https://www.hrd.go.kr/hrdp/co/pcobo/PCOBO0100P.do?tracseId=AIG20210000328661&tra
 
 VS코드로 대부분 프로그램을 돌린다
 LTS 우분트로 윈도우에서 리눅스로 돌린다
+
+도메인, 분석, 코딩 삼박자가 맞아야된다
