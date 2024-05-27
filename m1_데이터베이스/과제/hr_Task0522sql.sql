@@ -1,6 +1,6 @@
---[½Ç½À]
--- ÇöÀç hr¿¡ ÀÖ´Â 7°³ Å×ÀÌºíµéÀ» ºĞ¼®ÇØ¼­ ÀÎ»ç°ü¸®¿¡ ÀÇ¹ÌÀÖ´Â ÀÎ»çÀÌÆ® 5°³ÀÌ»óÀ¸ ±â¼úÇÏ¼¼¿ä
--- ÀÎ»ç°ü¸® °³¼±À» À§ÇÑ KPI 2°³¸¦ ¼³Á¤ÇÏ°í ÀÌ°ÍµéÀ» Å×ÀÌºíµéÀÇ µ¥¾îÅÍ¿¡ ¹İ¿µÇÑ ÈÄ ´Ù½Ã ºĞ¼®ÇØ¼­ ¹İ¿µ ¿©ºÎ¸¦ °ËÁõÇÏ¼¼¿ä (¿É¼Ç)
+--[ì‹¤ìŠµ]
+-- í˜„ì¬ hrì— ìˆëŠ” 7ê°œ í…Œì´ë¸”ë“¤ì„ ë¶„ì„í•´ì„œ ì¸ì‚¬ê´€ë¦¬ì— ì˜ë¯¸ìˆëŠ” ì¸ì‚¬ì´íŠ¸ 5ê°œì´ìƒìœ¼ ê¸°ìˆ í•˜ì„¸ìš”
+-- ì¸ì‚¬ê´€ë¦¬ ê°œì„ ì„ ìœ„í•œ KPI 2ê°œë¥¼ ì„¤ì •í•˜ê³  ì´ê²ƒë“¤ì„ í…Œì´ë¸”ë“¤ì˜ ë°ì–´í„°ì— ë°˜ì˜í•œ í›„ ë‹¤ì‹œ ë¶„ì„í•´ì„œ ë°˜ì˜ ì—¬ë¶€ë¥¼ ê²€ì¦í•˜ì„¸ìš” (ì˜µì…˜)
 
 SELECT * FROM countries;
 SELECT * FROM departments;
@@ -11,7 +11,7 @@ SELECT * FROM locations;
 SELECT * FROM regions;
 
 
---CASE1 °¡Àå ÀÎ¿øÀÌ ¸¹Àº °÷ÀÌ Áö±İ ÀÌ È¸»ç¿¡¼­ ÁıÁß ÅõÀÚÇÏ´Â °÷ÀÌ±â¿¡ ÀÌ°÷¿¡ ´õ ÅõÀÚ ÇÒÁö ¾Æ´Ï¸é ÀÎ¿ø ¾ø´Â °÷À» ´õ »ÌÀ»Áö¿¡ ´ëÇÑ Å×ÀÌºí
+--CASE1 ê°€ì¥ ì¸ì›ì´ ë§ì€ ê³³ì´ ì§€ê¸ˆ ì´ íšŒì‚¬ì—ì„œ ì§‘ì¤‘ íˆ¬ìí•˜ëŠ” ê³³ì´ê¸°ì— ì´ê³³ì— ë” íˆ¬ì í• ì§€ ì•„ë‹ˆë©´ ì¸ì› ì—†ëŠ” ê³³ì„ ë” ë½‘ì„ì§€ì— ëŒ€í•œ í…Œì´ë¸”
 SELECT department_name, department_id, employee_count
 FROM (
     SELECT d.department_name, d.department_id, COUNT(e.department_id) AS employee_count FROM departments d
@@ -24,25 +24,25 @@ FROM (
 )
 ORDER BY employee_count DESC;
 
---CASE2 ³ª¶óº° ºÎ¼­¿Í Á÷¹«¿¡¼­ ¸î¸íÀÌ ÆÄ°ßµÇ¾î ÀÖ´ÂÁö È®ÀÎ 
+--CASE2 ë‚˜ë¼ë³„ ë¶€ì„œì™€ ì§ë¬´ì—ì„œ ëª‡ëª…ì´ íŒŒê²¬ë˜ì–´ ìˆëŠ”ì§€ í™•ì¸ 
 SELECT l.city, l.state_province, l.country_id, e.job_id, COUNT(*) AS EMPLOYEE_COUNT FROM employees e
 INNER JOIN departments d ON e.department_id = d.department_id
 INNER JOIN locations l ON d.location_id = l.location_id
 GROUP BY l.country_id, l.city, l.state_province, d.department_id, e.job_id
 ORDER BY l.country_id;
 
---CASE3 ¼¼ÀÏÁî¸ÇµéÀÇ ¼º°ú ºñ±³
-SELECT e.employee_id, e.first_name || ' ' || e.last_name AS ÀÌ¸§, e.job_id, j.job_title, e.salary, e.commission_pct, 
-(e.salary + (e.salary * commission_pct)) as ¼º°ú±İ, e.manager_id, l.city
+--CASE3 ì„¸ì¼ì¦ˆë§¨ë“¤ì˜ ì„±ê³¼ ë¹„êµ
+SELECT e.employee_id, e.first_name || ' ' || e.last_name AS ì´ë¦„, e.job_id, j.job_title, e.salary, e.commission_pct, 
+(e.salary + (e.salary * commission_pct)) as ì„±ê³¼ê¸ˆ, e.manager_id, l.city
 FROM employees e
 LEFT JOIN departments d ON d.department_id = e.department_id
 INNER JOIN jobs j ON j.job_id = e.job_id
 INNER JOIN locations l ON l.location_id = d.location_id WHERE commission_pct is not null;
 
 
---CASE4 Á÷¿øµéÀÇ ÀÌÁ÷°ú ÀÌ·Â È®ÀÎ
-SELECT e.employee_id, e.first_name || ' ' || e.last_name AS ÀÌ¸§, nvl(h.job_id, 'ÀÌ·Â') AS job_id,
-decode(count(h.start_date), 0, '¾øÀ½', 1, '1', 2, '2', '2¹øÀÌ»ó') AS È½¼ö 
+--CASE4 ì§ì›ë“¤ì˜ ì´ì§ê³¼ ì´ë ¥ í™•ì¸
+SELECT e.employee_id, e.first_name || ' ' || e.last_name AS ì´ë¦„, nvl(h.job_id, 'ì´ë ¥') AS job_id,
+decode(count(h.start_date), 0, 'ì—†ìŒ', 1, '1', 2, '2', '2ë²ˆì´ìƒ') AS íšŸìˆ˜ 
 FROM employees e 
 LEFT OUTER JOIN job_history h ON e.employee_id = h.employee_id
 WHERE e.employee_id IS NOT NULL
@@ -50,9 +50,9 @@ GROUP BY ROLLUP ((e.employee_id, e.first_name || ' ' || e.last_name), h.job_id)
 HAVING count(h.start_date) > 0 AND GROUPING(e.employee_id) = 0 AND GROUPING(e.first_name || ' ' || e.last_name) = 0;
 
 
---CASE5 °°Àº Á÷¾÷ÀÏ¶§ÀÇ salary ºñ±³
-SELECT e.employee_id, e.first_name || ' ' || e.last_name AS name, e.hire_date, trunc((sysdate - e.hire_date) / 365) AS ±Ù¼Ó, 
-e.job_id, e.salary, (j.min_salary + j.max_salary) / 2 AS Æò±ÕÀÓ±İ 
+--CASE5 ê°™ì€ ì§ì—…ì¼ë•Œì˜ salary ë¹„êµ
+SELECT e.employee_id, e.first_name || ' ' || e.last_name AS name, e.hire_date, trunc((sysdate - e.hire_date) / 365) AS ê·¼ì†, 
+e.job_id, e.salary, (j.min_salary + j.max_salary) / 2 AS í‰ê· ì„ê¸ˆ 
 FROM employees e
 INNER JOIN jobs j ON e.job_id = j.job_id
 ORDER BY e.job_id;
