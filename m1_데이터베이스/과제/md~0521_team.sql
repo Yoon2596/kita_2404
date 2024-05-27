@@ -1,5 +1,5 @@
---[½Ç½À - 2ÀÎ 1Á¶]
---ÇÐ±³°ü¸®¸¦ À§ÇÏ¿© Å×ÀÌºí 2°³ ÀÌ»óÀ¸·Î db¸¦ ±¸ÃàÇÏ°í 3°³ ÀÌ»ó È°¿ëÇÒ ¼ö ÀÖ´Â case¸¦ ¸¸µå¼¼¿ä.
+--[ì‹¤ìŠµ - 2ì¸ 1ì¡°]
+--í•™êµê´€ë¦¬ë¥¼ ìœ„í•˜ì—¬ í…Œì´ë¸” 2ê°œ ì´ìƒìœ¼ë¡œ dbë¥¼ êµ¬ì¶•í•˜ê³  3ê°œ ì´ìƒ í™œìš©í•  ìˆ˜ ìžˆëŠ” caseë¥¼ ë§Œë“œì„¸ìš”.
 drop table departments;
 drop table professors;
 drop table students;
@@ -50,7 +50,7 @@ CREATE TABLE students (
 --    FOREIGN KEY (awid) REFERENCES students(stid) ON DELETE CASCADE
 --);
 
--- ÇÐ°ú µ¥ÀÌÅÍ
+-- í•™ê³¼ ë°ì´í„°
 INSERT INTO departments (dpid, dpname) VALUES (1, 'Computer Science');
 INSERT INTO departments (dpid, dpname) VALUES (2, 'Mathematics');
 INSERT INTO departments (dpid, dpname) VALUES (3, 'Physics');
@@ -62,7 +62,7 @@ INSERT INTO departments (dpid, dpname) VALUES (8, 'English');
 INSERT INTO departments (dpid, dpname) VALUES (9, 'History');
 INSERT INTO departments (dpid, dpname) VALUES (10,'Psychology');
 
--- ±³¼ö µ¥ÀÌÅÍ
+-- êµìˆ˜ ë°ì´í„°
 INSERT INTO professors (pfid, pfname, pfaddress, pfphone, pfemail, pfmajor, pfcareer, dpid) VALUES (1, 'John Doe', '123 Main St', '555-1234', 'john@example.com', 'Computer Science', '5 years', 1);
 INSERT INTO professors (pfid, pfname, pfaddress, pfphone, pfemail, pfmajor, pfcareer, dpid) VALUES (2, 'Jane Smith', '456 Elm St', '555-5678', 'jane@example.com', 'Mathematics', '8 years', 2);
 INSERT INTO professors (pfid, pfname, pfaddress, pfphone, pfemail, pfmajor, pfcareer, dpid) VALUES (3, 'Michael Johnson', '789 Oak St', '555-9012', 'michael@example.com', 'Physics', '3 years', 3);
@@ -78,7 +78,7 @@ INSERT INTO professors (pfid, pfname, pfaddress, pfphone, pfemail, pfmajor, pfca
 INSERT INTO professors (pfid, pfname, pfaddress, pfphone, pfemail, pfmajor, pfcareer, dpid) VALUES (13, 'David Lee', '123 Elm St', '555-3456', 'david@example.com', 'Computer Science', '10 years', 1);
 INSERT INTO professors (pfid, pfname, pfaddress, pfphone, pfemail, pfmajor, pfcareer, dpid) VALUES (14, 'Emily Johnson', '456 Oak St', '555-7890', 'emily@example.com', 'Physics', '7 years', 3);
 
--- ÇÐ»ý µ¥ÀÌÅÍ
+-- í•™ìƒ ë°ì´í„°
 INSERT INTO students (stid, stname, staddress, stphone, stemail, stmajor, stminor, stgpa, stcircle, dpid) VALUES (1, 'Ethan Thomas', '123 Main St', '555-1234', 'ethan@example.com', 'Computer Science', 'None', 3.5, 'Chess Club', 1);
 INSERT INTO students (stid, stname, staddress, stphone, stemail, stmajor, stminor, stgpa, stcircle, dpid) VALUES (2, 'Sophia White', '456 Elm St', '555-5678', 'sophia@example.com', 'Mathematics', 'None', 1.8, 'Soccer Club', 2);
 INSERT INTO students (stid, stname, staddress, stphone, stemail, stmajor, stminor, stgpa, stcircle, dpid) VALUES (3, 'James Harris', '789 Oak St', '555-9012', 'james@example.com', 'Physics', 'None', 3.9, 'Soccer Club', 3);
@@ -130,7 +130,7 @@ INSERT INTO students (stid, stname, staddress, stphone, stemail, stmajor, stmino
 INSERT INTO students (stid, stname, staddress, stphone, stemail, stmajor, stminor, stgpa, stcircle, dpid) VALUES (49, 'Mia Lewis', '123 Cypress St', '555-9990', 'mia@example.com', 'History', 'None', 3.1, 'Science Club', 9);
 INSERT INTO students (stid, stname, staddress, stphone, stemail, stmajor, stminor, stgpa, stcircle, dpid) VALUES (50, 'James Young', '456 Palm St', '555-0001', 'james@example.com', 'Psychology', 'None', 3.0, 'Psychology Club', 10);
 
--- Academic_Warning µ¥ÀÌÅÍ
+-- Academic_Warning ë°ì´í„°
 --INSERT INTO Academic_Warning(awid, awname, awaddress, awphone, awemail, awmajor, awminor, awgpa) VALUES (1, 'Mia King', '567 Pine St', '555-7890', 'mia@example.com', 'Biology', 'Chemistry', 1.5);
 
 --UPDATE Academic_Warning SET awmeeting = TO_DATE('2024/6/20', 'YYYY/MM/DD') WHERE awmeeting IS Null;
@@ -142,33 +142,33 @@ SELECT * FROM students;
 DELETE FROM professors;
 DELETE FROM students;
 
---CASE1 Áö¿ªº°·Î ¹ö½º ¿î¿ë (5¸í ÀÌ»óÀÎ °÷ ¹ö½º ¿îÇà °í·Á)
-SELECT substr(address, 5) AS °øÅëÁÖ¼Ò, COUNT(*) AS ¸í 
+--CASE1 ì§€ì—­ë³„ë¡œ ë²„ìŠ¤ ìš´ìš© (5ëª… ì´ìƒì¸ ê³³ ë²„ìŠ¤ ìš´í–‰ ê³ ë ¤)
+SELECT substr(address, 5) AS ê³µí†µì£¼ì†Œ, COUNT(*) AS ëª… 
 FROM (SELECT staddress AS address FROM students UNION ALL SELECT pfaddress AS address FROM professors)
-GROUP BY substr(address, 5) HAVING COUNT(*) >= 5 ORDER BY ¸í DESC;
+GROUP BY substr(address, 5) HAVING COUNT(*) >= 5 ORDER BY ëª… DESC;
 
 
---CASE2 ÀåÇÐ»ý°ú °æ°í¹ÞÀ» ÇÐ»ýÀÇ Á¡¼ö¿Í ÇÐ°ú ÇÑ¹ø¿¡ Ç¥½Ã
+--CASE2 ìž¥í•™ìƒê³¼ ê²½ê³ ë°›ì„ í•™ìƒì˜ ì ìˆ˜ì™€ í•™ê³¼ í•œë²ˆì— í‘œì‹œ
 SELECT 
     CASE WHEN stgpa >= 4.0 THEN stname END AS Scholarship,
     CASE WHEN stgpa <= 2.0 THEN stname END AS Warning, stgpa, stmajor FROM students
 WHERE stgpa >= 4.0 OR stgpa <= 2.0 ORDER BY stgpa DESC;
 
 
---CASE3 Àü°ø¸¸ °¡Áö°í ÀÖ´Â »ç¶÷°ú ºÎÀü°øµµ °°ÀÌ °¡Áö°í ÀÖ´Â »ç¶÷ÀÇ Àü°ø ¼ºÀûºñ±³
-SELECT '¸ÞÀÌÁ®¸¸ µéÀº ÇÐ»ý' AS "ºñÀü°øÀÇ À¯¹«", ROUND(AVG(stgpa), 2) AS avg_gpa FROM students WHERE stminor = 'None'
+--CASE3 ì „ê³µë§Œ ê°€ì§€ê³  ìžˆëŠ” ì‚¬ëžŒê³¼ ë¶€ì „ê³µë„ ê°™ì´ ê°€ì§€ê³  ìžˆëŠ” ì‚¬ëžŒì˜ ì „ê³µ ì„±ì ë¹„êµ
+SELECT 'ë©”ì´ì ¸ë§Œ ë“¤ì€ í•™ìƒ' AS "ë¹„ì „ê³µì˜ ìœ ë¬´", ROUND(AVG(stgpa), 2) AS avg_gpa FROM students WHERE stminor = 'None'
 UNION ALL
-SELECT '¸ÞÀÌÀú¿Í ¸¶ÀÌ³Ê µÑ´Ù µéÀº ÇÐ»ý' AS "ºñÀü°øÀÇ À¯¹«", ROUND(AVG(stgpa), 2) AS avg_gpa FROM students WHERE stminor != 'None';
+SELECT 'ë©”ì´ì €ì™€ ë§ˆì´ë„ˆ ë‘˜ë‹¤ ë“¤ì€ í•™ìƒ' AS "ë¹„ì „ê³µì˜ ìœ ë¬´", ROUND(AVG(stgpa), 2) AS avg_gpa FROM students WHERE stminor != 'None';
 
 
---CASE4 µ¿¾Æ¸®º° Æò±Õ Á¡¼ö¿Í ÀÎ¿ø¼ö¸¦ ºñ±³ÇØ¼­ ÇÐÁ¡ÀÌ 3.0 ÀÌÇÏ°Å³ª ÀÎ¿ø¼ö°¡ 3¸í ¹Ì¸¸ÀÎ µ¿¾Æ¸®¸¦ Ã£´Â´Ù. (µ¿¾Æ¸® ÆóÁö °æ°í¸¦ À§ÇÔ)
-SELECT stcircle AS "µ¿¾Æ¸®", ROUND(AVG(stgpa),2) AS "Æò±ÕÇÐÁ¡", COUNT(*) AS "µ¿¾Æ¸® ÇÐ»ý ¼ö" FROM students 
+--CASE4 ë™ì•„ë¦¬ë³„ í‰ê·  ì ìˆ˜ì™€ ì¸ì›ìˆ˜ë¥¼ ë¹„êµí•´ì„œ í•™ì ì´ 3.0 ì´í•˜ê±°ë‚˜ ì¸ì›ìˆ˜ê°€ 3ëª… ë¯¸ë§Œì¸ ë™ì•„ë¦¬ë¥¼ ì°¾ëŠ”ë‹¤. (ë™ì•„ë¦¬ íì§€ ê²½ê³ ë¥¼ ìœ„í•¨)
+SELECT stcircle AS "ë™ì•„ë¦¬", ROUND(AVG(stgpa),2) AS "í‰ê· í•™ì ", COUNT(*) AS "ë™ì•„ë¦¬ í•™ìƒ ìˆ˜" FROM students 
 GROUP BY stcircle HAVING AVG(stgpa) <= 3.0 OR COUNT(*) < 3;
 
 
---CASE5 ÇÐ°úº° Æò±ÕÁ¡¼ö ±¸ÇØ °¡Àå ¿ì¼öÇÑ ÇÐ°ú¿Í µµ¿òÀÌ ÇÊ¿äÇÑ ÇÐ°ú Ã£±â
-SELECT dpname AS ÇÐ°ú, ÇÐ°úº°Æò±Õ FROM departments d JOIN (SELECT stmajor AS ÇÐ°ú, ROUND(AVG(stgpa), 2) AS ÇÐ°úº°Æò±Õ FROM students GROUP BY stmajor) s ON d.dpname = s.ÇÐ°ú ORDER BY ÇÐ°úº°Æò±Õ DESC;
+--CASE5 í•™ê³¼ë³„ í‰ê· ì ìˆ˜ êµ¬í•´ ê°€ìž¥ ìš°ìˆ˜í•œ í•™ê³¼ì™€ ë„ì›€ì´ í•„ìš”í•œ í•™ê³¼ ì°¾ê¸°
+SELECT dpname AS í•™ê³¼, í•™ê³¼ë³„í‰ê·  FROM departments d JOIN (SELECT stmajor AS í•™ê³¼, ROUND(AVG(stgpa), 2) AS í•™ê³¼ë³„í‰ê·  FROM students GROUP BY stmajor) s ON d.dpname = s.í•™ê³¼ ORDER BY í•™ê³¼ë³„í‰ê·  DESC;
 
 
-SELECT stmajor AS ÇÐ°ú, ROUND(AVG(stgpa), 2) AS ÇÐ°úº°Æò±Õ FROM students GROUP BY stmajor ORDER BY ÇÐ°úº°Æò±Õ DESC;
---SELECT stmajor AS ÇÐ°ú, COUNT(*) AS ¸í FROM students GROUP BY stmajor ORDER BY ¸í DESC;
+SELECT stmajor AS í•™ê³¼, ROUND(AVG(stgpa), 2) AS í•™ê³¼ë³„í‰ê·  FROM students GROUP BY stmajor ORDER BY í•™ê³¼ë³„í‰ê·  DESC;
+--SELECT stmajor AS í•™ê³¼, COUNT(*) AS ëª… FROM students GROUP BY stmajor ORDER BY ëª… DESC;
