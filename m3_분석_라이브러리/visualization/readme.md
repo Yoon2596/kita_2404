@@ -3,8 +3,14 @@ visualStudio Code
   - C:\Users\Administrator\AppData\Local\Programs\Python\Python310\
   - C:\Users\Administrator\AppData\Local\Programs\Python\Python310\Scripts\
   - 2개 넣고 종료
-    
-2. VS Code 시작 터미널 명령어
+  
+2. 설치 필요
+왼쪽 블럭 같은 곳 클릭후 설치 필요
+- python
+- jupyter notebook
+- live server  
+
+4. VS Code 시작 터미널 명령어
 python 경로 확인:
 where python
 
