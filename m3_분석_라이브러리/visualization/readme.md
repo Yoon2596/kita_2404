@@ -1,7 +1,5 @@
 visualStudio Code 환경설정
-- python설치
-- jupyter notebook 설치
-- live server 설치
+- python 3.10.11 버전 설
   
 1. path 설정 : 시스템 환경변수 설정 -> 환경변수 -> administrator쪽에 있는 Path를 클릭하고 밑에 편집
   - C:\Users\Administrator\AppData\Local\Programs\Python\Python310\
