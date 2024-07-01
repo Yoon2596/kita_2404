@@ -10,3 +10,4 @@ python -m venv myenv
 가상환경 활성화:
 myenv\Scripts\activate
 
+- 업로드한 requirement로 가상환경에 설치 된 패키지 다시 설치
