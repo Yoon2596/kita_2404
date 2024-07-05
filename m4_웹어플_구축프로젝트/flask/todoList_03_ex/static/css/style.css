@@ -1,0 +1,79 @@
+/* ## 주요 변경 사항
+- 글꼴 변경: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif를 사용하여 좀 더 현대적인 느낌을 줍니다.
+- 배경색 변경: body의 배경색을 #e0f7fa로 변경하여 더 밝고 경쾌한 분위기를 조성합니다.
+- 중앙 정렬: form과 ul 요소를 중앙에 정렬하여 가독성을 높입니다.
+- 박스 그림자 강화: form과 li 요소의 그림자 효과를 강화하여 입체감을 더합니다.
+- 색상과 스타일 조정: 버튼과 링크의 색상과 스타일을 조정하여 더 세련된 느낌을 줍니다.
+- 전환 효과 추가: 버튼과 링크에 전환 효과를 추가하여 사용자 경험을 향상시킵니다. */
+
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;   
+margin: 0;
+background-color: #e0f7fa;
+padding : 20px;
+}
+h1 {
+color: #0ba339;
+text-align: center;
+}
+form {
+margin-bottom: 20px;
+background: #ffffff;
+padding: 20px;
+border-radius: 10px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+max-width: 600px;
+margin-left: auto; 
+margin-right: auto;
+}
+label {
+font-weight: bold;
+color: #00796b;
+}
+input[type='text'],
+input[type='date'],
+textarea {
+width: calc(100% - 16px);
+padding: 8px;
+margin: 10px 0;
+border: 1px solid #b0bac5;
+border-radius: 4px;
+/* box-sizing: border-box : padding과 border 값을 내부에 포함하도록 설정합니다(기본값 content-box는 패딩과 보더가 콘텐츠 너비에 추가) */
+box-sizing: border-box;
+
+}
+input[type='submit'] {
+background-color: #4caf50;
+color: white;
+padding: 10px 25px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+/* transition: background; */
+}
+input[type='submit']:hover {
+background-color: #165a19;
+}
+ul {
+list-style-type: none;
+padding: 0;
+max-width: 600px;
+margin-left: auto;
+margin-right: auto;
+}
+li {
+background: #fff;
+margin: 10px 0;
+padding: 15px;
+border-radius: 5px;
+/* 수평 및 수직 이동없이 요소 주위에 부드럽고 퍼진 매우 옅은 검은색 그림자 */
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+a {
+margin-left: 10px;
+color: #007bff;
+text-decoration: none;
+}
+a:hover {
+text-decoration: underline;
+}
