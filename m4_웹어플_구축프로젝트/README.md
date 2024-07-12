@@ -11,3 +11,6 @@ python -m venv myenv
 myenv\Scripts\activate
 
 - 업로드한 requirement로 가상환경에 설치 된 패키지 다시 설치
+
+bootstrap 4.6
+w3school에서 bootstrap 학습
