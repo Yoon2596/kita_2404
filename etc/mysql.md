@@ -1,7 +1,8 @@
 MySQL setting
-
+- root에 들어가서 하단 코드 적고 각 행마다 ctrl+enter로 실행
+  
 show databases; 
-create database kevin_db;
+create database rys_db;
 show databases; 
 select * from user;
 CREATE USER 'rys’@’localhost' IDENTIFIED BY 'rys';
@@ -17,3 +18,7 @@ select * from task;
 CREATE USER 'kita1'@'localhost' IDENTIFIED BY 'kita1';
 GRANT ALL PRIVILEGES ON *.* TO 'kita1'@'localhost';
 flush privileges;
+
+- 모두 실행 후 sql 종료후 다시 들어온후 root 상단에 + 버튼 눌러서 
+ex : kita1@localhost, kita1, ps kita1 다 적기
+
