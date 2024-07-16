@@ -1,6 +1,18 @@
 MySQL setting
 - root에 들어가서 하단 코드 적고 각 행마다 ctrl+enter로 실행
-  
+
+show databases; 
+create database kita3_db;
+select * from user;
+CREATE USER 'kita3'@'localhost' IDENTIFIED BY 'kita3';
+GRANT ALL PRIVILEGES ON *.* TO 'kita3'@'localhost';
+flush privileges;
+show tables;
+Select User, Host FROM user;
+USE kita3_db;
+
+위에서 쓰세요
+
 show databases; 
 create database rys_db;
 show databases; 
