@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지금 뭐먹지?</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+    <script src="{{url_for('static', filename='js/script.js')}}"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=91816f78f13ae38c22e916ab32d7094e"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>지금 뭐먹지?</h1>
+            <p>캐치테이블 기반 추천이라고 작게 써두기</p>
+        </header>
+        <div class="dropdown-label">
+            지역구 선택
+            <span class="material-icons">restaurant</span>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">
+              <span class="dropbtn_icon material-icons">more_horiz</span>
+              <span class="dropbtn_content">지역구 선택...</span>
+              <span class="dropbtn_click material-icons" onclick="dropdown()">arrow_drop_down</span>
+            </button>
+            <div class="dropdown-content">
+                <div class="fastfood" onclick="showMenu('강남구')">강남구</div>
+                <div class="fastfood" onclick="showMenu('마포구')">마포구</div>
+                <div class="fastfood" onclick="showMenu('용산구')">용산구</div>
+                <div class="fastfood" onclick="showMenu('성동구')">성동구</div>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="section">
+                <h2>현재 음식 탑 키워드 (10)</h2>
+                <ul id="topKeywords">
+                    <!-- JavaScript에서 동적으로 채워질 예정 -->
+                </ul>
+            </div>
+            <div class="section">
+                <h2>지금 뭐 먹지? (랜덤 추천)</h2>
+                <div id="randomRecommendation">
+                    <!-- JavaScript에서 동적으로 채워질 예정 -->
+                </div>
+            </div>
+            <div class="section">
+                <h2>카카오 맵</h2>
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
