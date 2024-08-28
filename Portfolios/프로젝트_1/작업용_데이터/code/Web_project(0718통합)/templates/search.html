@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+</head>
+<style>
+    .card {
+        width: 600px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 16px;
+        margin: 16px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        cursor: pointer;
+        
+    }
+    .card h2 {
+        margin: 0 0 8px;
+    }
+    .card p {
+        margin: 0 0 4px;
+    }
+
+    .outer {
+        border: 6px solid royalblue;
+        width: 600px;
+        height: 500px;
+        overflow-x: hidden;
+    }
+
+    .inner-list {
+        display: flex;
+        transition: .3s ease-out;
+        height: 100%;
+    }
+
+    #inner {
+        border: 6px solid olive;
+        padding: 0 16px;
+    }
+
+    /* 룰렛 */
+    .header {
+      /* padding: 40px; */
+      color: red;
+      margin: auto;
+      margin-bottom: 40px;
+    }
+
+    .header p {
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .wheel {
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+
+    .center-circle {
+      width: 100px;
+      height: 100px;
+      border-radius: 60px;
+      background-color: #fff;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+
+    .triangle {
+      width: 0;
+      height: 0;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-right: 30px solid red;
+      position: absolute;
+      top: 50%;
+      right: -175%;
+      transform: translateY(-50%);
+    }
+
+    .inputArea {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    .inputArea input, .inputArea button {
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .inputArea button {
+      margin-left: 10px;
+    }
+
+    #add_button{
+        border-radius: 50%;
+        cursor: pointer;
+    }
+</style>
+<body>
+    <h1>Search</h1>
+    <form method="GET" action="{{ url_for('search') }}">
+        <label for="location">Location:</label><br>
+        {% for loc in locations %}
+            <input type="checkbox" name="location" value="{{ loc }}"> {{ loc }}<br>
+        {% endfor %}
+        <br> <!--MS 추가. 여기서부터 (아래) -->
+        <label for="food_type">Food Type:</label><br>
+        {% for food_type in food_types %}
+            <input type="checkbox" name="food_type" value="{{ food_type }}"> {{ food_type }}<br>
+        {% endfor %} <!--MS 추가. 여기서까지-->
+        <br>      
+        <label for="min_price">Min Price:</label>
+        <input type="text" name="min_price" value="{{ request.args.get('min_price', '') }}"><br>
+        <label for="max_price">Max Price:</label>
+        <input type="text" name="max_price" value="{{ request.args.get('max_price', '') }}"><br>
+        <label for="meal_choice">Meal Choice:</label>
+        <select name="meal_choice">
+            <option value="점심" {% if request.args.get('meal_choice') == '점심' %}selected{% endif %}>점심</option>
+            <option value="저녁" {% if request.args.get('meal_choice') == '저녁' %}selected{% endif %}>저녁</option>
+        </select><br>
+        <input type="submit" value="Search">
+        <div class="outer">
+            <div class="inner-list">
+                {% for shop in shops %}
+                <div class="card" id="inner">
+                    <h2>{{ shop.ShopName }}</h2>
+                    <p><strong>Rate:</strong> {{ shop.ShopRating }}</p>
+                    <p><strong>Reviews:</strong> {{ shop.Reviews }}</p>
+                    <p><strong>Address:</strong> {{ shop.Address }}</p>
+                    <p><strong>Category:</strong> {{ shop.Category_catchtable }}</p>
+                    <p><strong>PriceRange:</strong> {{ shop.LunchDinner }}</p>
+                    <p><strong>Description:</strong> {{ shop.Description }}</p>
+                    <form method="POST" action="{{ url_for('save') }}">
+                        <input type="hidden" name="card_id" value="{{ shop.id }}">
+                        <button type="submit">Save</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="button-list">
+            <button class="button-left">← Left</button>
+            <button class="button-right">Right →</button>
+        </div>
+    </form>
+    <div class="r-wrap">
+        <div class="header">
+            <p id="winner">결과</p>
+        </div>
+        <div class="wheel">
+            <canvas id="canvas" width="400" height="400"></canvas>
+            <div class="center-circle" onclick="spin()">
+            <div class="triangle"></div>
+            </div>
+        </div>
+        <div class="inputArea">
+            <input type="text" id="inputItem" placeholder="원하는 음식을 입력">
+            <button id="add_button" onclick="addItem()">클릭</button>
+        </div>
+    </div>
+    <div class="button-list">
+        <button class="button-left">← Left</button>
+        <button class="button-right">Right →</button>
+    </div>
+</body>
+<script>
+    /* div사이즈 동적으로 구하기 */
+    const outer = document.querySelector('.outer');
+    const innerList = document.querySelector('.inner-list');
+    const inners = document.querySelectorAll('#inner');
+    let currentIndex = 0; // 현재 슬라이드 화면 인덱스
+    
+    inners.forEach((inner) => {
+      inner.style.width = `${outer.clientWidth}px`; // inner의 width를 모두 outer의 width로 만들기
+    })
+    
+    innerList.style.width = `${outer.clientWidth * inners.length}px`; // innerList의 width를 inner의 width * inner의 개수로 만들기
+    
+    /*
+      버튼에 이벤트 등록하기
+    */
+    const buttonLeft = document.querySelector('.button-left');
+    const buttonRight = document.querySelector('.button-right');
+    
+    buttonLeft.addEventListener('click', () => {
+      currentIndex--;
+      currentIndex = currentIndex < 0 ? 0 : currentIndex; // index값이 0보다 작아질 경우 0으로 변경
+      innerList.style.marginLeft = `-${582 * currentIndex}px`; // index만큼 margin을 주어 옆으로 밀기
+      clearInterval(interval); // 기존 동작되던 interval 제거
+      interval = getInterval(); // 새로운 interval 등록
+    });
+    
+    buttonRight.addEventListener('click', () => {
+      currentIndex++;
+      currentIndex = currentIndex >= inners.length ? inners.length - 1 : currentIndex; // index값이 inner의 총 개수보다 많아질 경우 마지막 인덱스값으로 변경
+      innerList.style.marginLeft = `-${582 * currentIndex}px`; // index만큼 margin을 주어 옆으로 밀기
+      clearInterval(interval); // 기존 동작되던 interval 제거
+      interval = getInterval(); // 새로운 interval 등록
+    });
+    
+    /*
+    주기적으로 화면 넘기기
+    */
+    const getInterval = () => {
+      return setInterval(() => {
+        currentIndex++;
+        currentIndex = currentIndex >= inners.length ? 0 : currentIndex;
+        innerList.style.marginLeft = `-${582 * currentIndex}px`;
+      }, 5000);
+    }
+    
+    let interval = getInterval(); // interval 등록
+    </script>
+    <script>
+        function randomColor() {
+          const r = Math.floor(Math.random() * 255);
+          const g = Math.floor(Math.random() * 255);
+          const b = Math.floor(Math.random() * 255);
+          return { r, g, b };
+        }
+      
+        function toRad(deg) {
+          return deg * (Math.PI / 180.0);
+        }
+      
+        function randomRange(min, max) {
+          return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+      
+        function easeOutSine(x) {
+          return Math.sin((x * Math.PI) / 2);
+        }
+      
+        function getPercent(input, min, max) {
+          return (((input - min) * 100) / (max - min)) / 100;
+        }
+      
+        function rgb(r, g, b) {
+          return `rgb(${r}, ${g}, ${b})`;
+        }
+      
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        const width = canvas.width;
+        const height = canvas.height;
+      
+        const centerX = width / 2;
+        const centerY = height / 2;
+        const radius = width / 2;
+      
+        let items = [];
+      
+        let currentDeg = 0;
+        let step = 360 / items.length;
+        let colors = [];
+        for (let i = 0; i < items.length; i++) {
+          colors.push(randomColor());
+        }
+      
+        function addItem() {
+          const newItem = document.getElementById('inputItem').value;
+          if (newItem) {
+            items.push(newItem);
+            document.getElementById('inputItem').value = '';
+            createWheel();
+          }
+        }
+      
+        function createWheel() {
+          step = 360 / items.length;
+          colors = [];
+          for (let i = 0; i < items.length; i++) {
+            colors.push(randomColor());
+          }
+          draw();
+        }
+      
+        draw();
+      
+        function draw() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.beginPath();
+          ctx.arc(centerX, centerY, radius, toRad(0), toRad(360));
+          ctx.fillStyle = rgb(33, 33, 33);
+          ctx.lineTo(centerX, centerY);
+          ctx.fill();
+      
+          let startDeg = currentDeg;
+          for (let i = 0; i < items.length; i++, startDeg += step) {
+            let endDeg = startDeg + step;
+      
+            let color = colors[i];
+            let colorStyle = rgb(color.r, color.g, color.b);
+      
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius - 2, toRad(startDeg), toRad(endDeg));
+            ctx.closePath();
+            ctx.fillStyle = colorStyle;
+            ctx.fill();
+            ctx.stroke();
+      
+            ctx.save();
+            ctx.translate(centerX, centerY);
+            ctx.rotate(toRad((startDeg + endDeg) / 2));
+            ctx.textAlign = "center";
+            ctx.fillStyle = (color.r > 150 || color.g > 150 || color.b > 150) ? "#000" : "#fff";
+            ctx.font = "bold 24px serif";
+            ctx.fillText(items[i], radius / 1.5, 0);
+            ctx.restore();
+      
+            if (startDeg % 360 < 360 && startDeg % 360 > 270 && endDeg % 360 > 0 && endDeg % 360 < 90) {
+              document.getElementById("winner").innerHTML = items[i];
+            }
+          }
+        }
+      
+        let speed = 0;
+        let maxRotation = randomRange(360 * 3, 360 * 6);
+        let pause = false;
+      
+        function animate() {
+          if (pause) {
+            return;
+          }
+          speed = easeOutSine(getPercent(currentDeg, maxRotation, 0)) * 20;
+          if (speed < 0.01) {
+            speed = 0;
+            pause = true;
+          }
+          currentDeg += speed;
+          draw();
+          window.requestAnimationFrame(animate);
+        }
+      
+        function spin() {
+          if (speed !== 0) {
+            return;
+          }
+          currentDeg = 0;
+          maxRotation = randomRange(360 * 3, 360 * 6);
+          pause = false;
+          window.requestAnimationFrame(animate);
+        }
+      </script>
+
+</html>
