@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 16px;
+            margin: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .card h2 {
+            margin: 0 0 8px;
+        }
+        .card p {
+            margin: 0 0 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Results</h1>
+    <a href="{{ url_for('index') }}">Back to Search</a>
+    <a href="{{ url_for('saved') }}">View Saved Items</a>
+
+    <div>
+        <a href="{{ url_for('search', location=request.args.getlist('location'), min_price=request.args.get('min_price'), max_price=request.args.get('max_price'), meal_choice=request.args.get('meal_choice'), sort_by='rating') }}">Sort by Rating</a>
+        <a href="{{ url_for('search', location=request.args.getlist('location'), min_price=request.args.get('min_price'), max_price=request.args.get('max_price'), meal_choice=request.args.get('meal_choice'), sort_by='reviews') }}">Sort by Reviews</a>
+    </div><!--MS 추가. 여기서부터 (아래) -->
+    <h0>선택하신 조건에 대한 검색 결과입니다.<br>
+        위치: 
+        {% if request.args.getlist('location') %}
+            {% for loc in request.args.getlist('location') %}
+                {{ loc }}{% if not loop.last %}, {% endif %}
+            {% endfor %}
+        {% else %}
+            정보 없음
+        {% endif %}<br> 
+        음식 종류: 
+        {% if request.args.getlist('food_type') %}
+            {% for food in request.args.getlist('food_type') %}
+                {{ food }}{% if not loop.last %}, {% endif %}
+            {% endfor %}
+        {% else %}
+            정보 없음
+        {% endif %}<br>
+        가격 대: 
+        {% if request.args.get('min_price') and request.args.get('max_price') %}
+            {{ request.args.get('min_price') }} ~ {{ request.args.get('max_price') }}
+        {% else %}
+            정보 없음
+        {% endif %}<br>
+    </h0>
+    <h0>총 검색 결과: {{ results.total }}</h0><br><!--MS 추가. 여기까지 (선택한 조건과 총 검색 결과 제시)-->
+    <div>
+    {% if results.items %}
+        {% for result in results.items %}
+            <div class="card">
+                <h2>{{ result.ShopName }}</h2>
+                <p><strong>Rate:</strong> {{ result.ShopRating }}</p>
+                <p><strong>Reviews:</strong> {{ result.Reviews }}</p>
+                <p><strong>Address:</strong> {{ result.Address }}</p>
+                <p><strong>Category:</strong> {{ result.Category_catchtable }}</p>
+                <p><strong>PriceRange:</strong> {{ result.LunchDinner }}</p>
+                <form method="POST" action="{{ url_for('save') }}">
+                    <input type="hidden" name="card_id" value="{{ result.id }}">
+                    <button type="submit">Save</button>
+                </form><!--MS 추가. 여기서부터 (아래) -->
+                <form method="GET" action="{{ url_for('map_view', id=result.id) }}">
+                    <button type="submit">상세보기</button><!--MS 추가. 여기까지 (상세보기 버튼 추가)-->
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+    </div>
+
+    <div>
+        {% if results.has_prev %}
+            <a href="{{ url_for('search', page=results.prev_num, location=request.args.getlist('location'),
+                                food_type=request.args.getlist('food_type'),
+                                min_price=request.args.get('min_price'), max_price=request.args.get('max_price'),
+                                meal_choice=request.args.get('meal_choice'), sort_by=request.args.get('sort_by')) }}">Previous</a>
+        {% endif %}
+        {% for page_num in results.iter_pages(left_edge=2, right_edge=2, left_current=2, right_current=2) %}
+            {% if page_num %}
+                {% if page_num == results.page %}
+                    <strong>{{ page_num }}</strong>
+                {% else %}
+                    <a href="{{ url_for('search', page=page_num, location=request.args.getlist('location'),
+                                        food_type=request.args.getlist('food_type'),
+                                        min_price=request.args.get('min_price'), max_price=request.args.get('max_price'),
+                                        meal_choice=request.args.get('meal_choice'), sort_by=request.args.get('sort_by')) }}">{{ page_num }}</a>
+                {% endif %}
+            {% else %}
+                ...
+            {% endif %}
+        {% endfor %}
+        {% if results.has_next %}
+            <a href="{{ url_for('search', page=results.next_num, location=request.args.getlist('location'),
+                                min_price=request.args.get('min_price'), max_price=request.args.get('max_price'),
+                                meal_choice=request.args.get('meal_choice'), sort_by=request.args.get('sort_by')) }}">Next</a>
+        {% endif %}
+    </div>
+</body>
+</html>
