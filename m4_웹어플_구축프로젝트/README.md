@@ -4,7 +4,7 @@
 - 가상환경 생성 :
 python -m venv myenv
 
-- C:\Users\Administrator\AppData\Local\Programs\Python\Python310\python.exe python -m venv myenv
+- C:\Users\Administrator\AppData\Local\Programs\Python\Python310\python.exe -m venv myenv
 
 그 후
 가상환경 활성화:
